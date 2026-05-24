@@ -202,9 +202,9 @@ const installContent: InstallFunc = (files) => {
 // -------------------------------------
 
 /**
- * Checks if MelonLoader is installed for a given discovery.
+ * Checks if GML is installed for a given discovery.
  *
- * Looks for all MelonLoader required files under the game directory.
+ * Looks for all GML required files under the game directory.
  *
  * @param discovery - The game discovery result from Vortex.
  * @returns True if all required Godot Mod Loader files exist; otherwise false.
