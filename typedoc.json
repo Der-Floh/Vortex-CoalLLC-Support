@@ -1,6 +1,6 @@
 {
     "entryPoints": [
-        "index.ts"
+        "src/index.ts"
     ],
     "out": "docs",
     "tsconfig": "tsconfig.json",
