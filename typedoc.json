@@ -1,0 +1,20 @@
+{
+    "entryPoints": [
+        "index.ts"
+    ],
+    "out": "docs",
+    "tsconfig": "tsconfig.json",
+    "name": "Coal LLC",
+    "plugin": [
+        "typedoc-material-theme",
+        "typedoc-plugin-missing-exports"
+    ],
+    "themeColor": "#007acc",
+    "includeVersion": true,
+    "readme": "README.md",
+    "placeInternalsInOwningModule": true,
+    "excludePrivate": true,
+    "excludeProtected": false,
+    "excludeInternal": true,
+    "categorizeByGroup": true,
+}

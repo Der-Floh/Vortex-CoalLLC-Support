@@ -1,0 +1,28 @@
+{
+    "name": "coalllc-support",
+    "displayName": "Coal LLC",
+    "version": "1.0.0",
+    "private": true,
+    "devDependencies": {
+        "@rollup/plugin-typescript": "^12.0.0",
+        "rollup": "^4.0.0",
+        "tslib": "^2.0.0",
+        "@types/bluebird": "^3.5.42",
+        "@types/node": "^25.0.9",
+        "typedoc": "^0.28.17",
+        "typedoc-material-theme": "^1.4.1",
+        "typedoc-plugin-missing-exports": "^4.1.2",
+        "cross-replace": "^0.2.0",
+        "typescript": "^5.9.3",
+        "vortex-api": "git+https://github.com/Nexus-Mods/vortex-api.git"
+    },
+    "scripts": {
+        "docs": "typedoc",
+        "build": "rollup -c rollup.config.mjs && node .vscode/build/invoke-ps.js .vscode/build/populate-pack.ps1",
+        "watch": "rollup -c rollup.config.mjs --watch",
+        "package": "npm run build && node .vscode/build/invoke-ps.js .vscode/build/package-zip.ps1",
+        "install-deps": "npm install --ignore-scripts",
+        "install-vortex-api": "npm install --ignore-scripts --save-dev git+https://github.com/Nexus-Mods/vortex-api.git",
+        "install-winapi-bindings": "npm install --ignore-scripts --save-dev git+https://github.com/Nexus-Mods/node-winapi-bindings.git"
+    }
+}
