@@ -1,5 +1,4 @@
 # Packages the contents of .pack/ into dist/$name-$version.zip (name and version from package.json).
-# Fails if package.json and info.json disagree on the version.
 
 param(
     [string]$WorkspaceFolder = (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent)
@@ -13,11 +12,6 @@ $distDir = Join-Path $WorkspaceFolder "dist"
 
 if (-not (Test-Path $packDir)) {
     throw ".pack/ directory not found. Run 'npm run build' first."
-}
-
-$info = Get-Content (Join-Path $packDir "info.json") -Raw | ConvertFrom-Json
-if ($info.version -ne $pkg.version) {
-    throw "Version mismatch: package.json has $($pkg.version) but info.json has $($info.version)."
 }
 
 $zipName = "$($pkg.name)-$($pkg.version).zip"

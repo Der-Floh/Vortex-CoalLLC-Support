@@ -110,7 +110,7 @@ To build the extension from source:
    npm run build
    ```
 
-   This bundles the TypeScript sources from `src/` into `.pack/index.js` and adds `info.json` and `gameart.jpg`. `.pack/` is exactly what Vortex loads.
+   This bundles the TypeScript sources from `src/` into `.pack/index.js`, adds `gameart.jpg`, and generates `info.json` from `package.json`. `.pack/` is exactly what Vortex loads.
 
 5. **Package the extension (optional)**
 

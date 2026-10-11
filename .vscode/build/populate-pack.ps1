@@ -1,6 +1,6 @@
 # Completes the .pack folder, which rollup bundles index.js into, with the other files Vortex needs.
 # - Finds the most top-level gameart image and copies it to .pack/
-# - Finds the most top-level info.json and copies it to .pack/
+# - Generates .pack/info.json from package.json
 
 param(
     [string]$WorkspaceFolder = (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent)
@@ -8,7 +8,7 @@ param(
 
 $packDir = Join-Path $WorkspaceFolder ".pack"
 
-# Folders to skip when searching for gameart / info.json
+# Folders to skip when searching for gameart
 $excludedDirs = @("node_modules", ".pack", ".git", ".vscode", "docs", "assets", "dist", "src", "Vortex")
 
 if (-not (Test-Path (Join-Path $packDir "index.js"))) {
@@ -66,18 +66,26 @@ $gameart = $allImages | Sort-Object {
 Copy-Item -Path $gameart.FullName -Destination (Join-Path $packDir $gameart.Name) -Force
 Write-Host "Gameart: $($gameart.FullName)"
 
-# -- Find info.json (most top-level) ------------------------------------------
-$allInfo = Find-Files -Root $WorkspaceFolder -ExcludedDirNames $excludedDirs -Filter "info.json"
+# -- Generate info.json from package.json ---------------------------------------
+$pkg = Get-Content (Join-Path $WorkspaceFolder "package.json") -Raw | ConvertFrom-Json
 
-if ($allInfo.Count -eq 0) {
-    throw "No info.json found in the workspace."
+foreach ($field in @("name", "displayName", "author", "version", "description")) {
+    if (-not $pkg.$field) {
+        throw "package.json has no '$field', which info.json is generated from."
+    }
 }
 
-$infoFile = $allInfo | Sort-Object {
-    ($_.FullName.Split([IO.Path]::DirectorySeparatorChar).Count)
-}, Name | Select-Object -First 1
+$info = [ordered]@{
+    id          = $pkg.name
+    name        = $pkg.displayName
+    author      = $pkg.author
+    version     = $pkg.version
+    description = $pkg.description
+}
 
-Copy-Item -Path $infoFile.FullName -Destination (Join-Path $packDir "info.json") -Force
-Write-Host "info.json: $($infoFile.FullName)"
+# Vortex reads info.json with JSON.parse, which fails on the BOM Windows PowerShell's UTF-8 encoding writes
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText((Join-Path $packDir "info.json"), ($info | ConvertTo-Json), $utf8NoBom)
+Write-Host "info.json: generated from package.json (v$($pkg.version))"
 
 Write-Host ".pack populated successfully."

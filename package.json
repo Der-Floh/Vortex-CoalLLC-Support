@@ -1,7 +1,9 @@
 {
     "name": "coalllc-support",
-    "displayName": "Coal LLC",
-    "version": "1.0.0",
+    "displayName": "Game: Coal LLC",
+    "version": "1.0.1",
+    "description": "Support for Coal LLC",
+    "author": "DerFloh",
     "private": true,
     "devDependencies": {
         "@rollup/plugin-typescript": "^12.3.0",
