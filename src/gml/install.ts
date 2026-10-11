@@ -179,7 +179,7 @@ function notifyGmlInstalled(api: types.IExtensionApi, tag: string): void {
         title: `${GML.name} ${tag} installed`,
         message: 'Start Coal LLC from Vortex to finish the setup. To start it from Steam instead, add the Steam launch option.',
         actions: [
-            { title: 'Steam launch option', action: () => showSteamLaunchOption(api) },
+            { title: 'Steam launch option (optional)', action: () => showSteamLaunchOption(api) },
         ],
     });
 }
