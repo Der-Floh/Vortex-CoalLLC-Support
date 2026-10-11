@@ -1,30 +1,19 @@
-# Populates the .pack folder with all files needed to run the extension in Vortex.
-# - Copies the entire out/ tree to .pack/ (preserving structure)
+# Completes the .pack folder, which rollup bundles index.js into, with the other files Vortex needs.
 # - Finds the most top-level gameart image and copies it to .pack/
 # - Finds the most top-level info.json and copies it to .pack/
-# Excludes: node_modules, .pack, out, .git, .vscode, docs, assets
 
 param(
     [string]$WorkspaceFolder = (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent)
 )
 
 $packDir = Join-Path $WorkspaceFolder ".pack"
-$outDir = Join-Path $WorkspaceFolder "out"
 
 # Folders to skip when searching for gameart / info.json
-$excludedDirs = @("node_modules", ".pack", "out", ".git", ".vscode", "docs", "assets")
+$excludedDirs = @("node_modules", ".pack", ".git", ".vscode", "docs", "assets", "dist", "src", "Vortex")
 
-# -- Clear and recreate .pack --------------------------------------------------
-if (Test-Path $packDir) {
-    Remove-Item -Path $packDir -Recurse -Force
+if (-not (Test-Path (Join-Path $packDir "index.js"))) {
+    throw ".pack/index.js not found. Run 'npm run build' instead."
 }
-New-Item -ItemType Directory -Path $packDir -Force | Out-Null
-
-# -- Copy out/ tree into .pack/ ------------------------------------------------
-if (-not (Test-Path $outDir)) {
-    throw "out/ directory not found. Run 'tsc' first."
-}
-Copy-Item -Path (Join-Path $outDir "*") -Destination $packDir -Recurse -Force
 
 # -- Helper: collect files not under excluded dirs ----------------------------
 function Find-Files {

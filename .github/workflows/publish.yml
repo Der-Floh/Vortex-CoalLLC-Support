@@ -1,0 +1,29 @@
+name: Publish Release
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: nexus-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  publish:
+    uses: Der-Floh/Der-Floh/.github/workflows/nexus-publish.yml@v1
+    with:
+      package-name: coalllc-support
+      version-file: info.json
+      file-id: ${{ vars.NEXUSMODS_FILE_ID }}
+      file-name: Coal LLC Support
+      file-description: Adds support for Coal LLC to Vortex
+      primary-mod-manager-download: true
+      mod-id: ${{ vars.NEXUSMODS_MOD_ID }}
+      changelog: ${{ github.event.release.html_url }}
+    secrets:
+      NEXUSMODS_API_KEY: ${{ secrets.NEXUSMODS_API_KEY }}

@@ -1,10 +1,11 @@
 {
     "entryPoints": [
-        "src/index.ts"
+        "src"
     ],
+    "entryPointStrategy": "expand",
     "out": "docs",
     "tsconfig": "tsconfig.json",
-    "name": "Coal LLC",
+    "name": "Coal LLC Support",
     "plugin": [
         "typedoc-material-theme",
         "typedoc-plugin-missing-exports"
@@ -16,5 +17,6 @@
     "excludePrivate": true,
     "excludeProtected": false,
     "excludeInternal": true,
+    "excludeExternals": true,
     "categorizeByGroup": true,
 }

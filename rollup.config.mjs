@@ -1,21 +1,26 @@
 import typescript from '@rollup/plugin-typescript';
+import { builtinModules } from 'node:module';
+
+const RUNTIME_PROVIDED_MODULES = ['vortex-api', 'bluebird'];
+
+const SOURCE_URL_PREFIX = 'coalllc-support:///';
+
+const toSourceUrl = (relativeSourcePath) =>
+    SOURCE_URL_PREFIX + relativeSourcePath.replace(/\\/g, '/').replace(/^(\.\.\/)+/, '');
 
 export default {
     input: 'src/index.ts',
     output: {
-        file: 'out/index.js',
+        file: '.pack/index.js',
         format: 'cjs',
         sourcemap: 'inline',
+        sourcemapPathTransform: toSourceUrl,
         exports: 'named',
     },
     external: [
-        'bluebird',
-        'fs',
-        'https',
-        'os',
-        'path',
-        'util',
-        'vortex-api',
+        ...RUNTIME_PROVIDED_MODULES,
+        ...builtinModules,
+        ...builtinModules.map((name) => `node:${name}`),
     ],
     plugins: [
         typescript({
@@ -23,6 +28,7 @@ export default {
             sourceMap: true,
             inlineSourceMap: false,
             inlineSources: true,
+            noEmitOnError: true,
         }),
     ],
 };

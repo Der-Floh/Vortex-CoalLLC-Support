@@ -4,8 +4,8 @@
         "target": "ES2022",
         "strict": true,
         "esModuleInterop": true,
-        "outDir": "./out",
-        "rootDir": ".",
+        "noEmit": true,
+        "rootDir": "./src",
         "declaration": false,
         "sourceMap": true,
         "inlineSources": true,
@@ -15,11 +15,6 @@
         ]
     },
     "include": [
-        "**/*.ts"
-    ],
-    "exclude": [
-        "node_modules",
-        "out",
-        "Vortex"
+        "src/**/*.ts"
     ]
 }
