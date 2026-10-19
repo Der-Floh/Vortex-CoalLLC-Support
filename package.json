@@ -1,9 +1,10 @@
 {
     "name": "coalllc-support",
     "displayName": "Game: Coal LLC",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Support for Coal LLC",
     "author": "DerFloh",
+    "gameId": 9309,
     "gameart": "assets/gameart.jpg",
     "private": true,
     "devDependencies": {
@@ -28,6 +29,8 @@
         "docs": "typedoc",
         "build:docs": "npm run build && npm run docs",
         "package": "npm run typecheck && npm run build && node .vscode/build/package-zip.mjs",
+        "deploy": "node .vscode/build/deploy-to-vortex.mjs",
+        "debug": "npm run build && npm run deploy && node .vscode/build/start-vortex.mjs",
         "install-deps": "npm install --ignore-scripts",
         "install-vortex-api": "npm install --ignore-scripts --save-dev git+https://github.com/Nexus-Mods/vortex-api.git"
     }
